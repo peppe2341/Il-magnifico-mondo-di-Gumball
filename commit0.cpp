@@ -1,7 +1,7 @@
 #include <iostream>
 #define DIM 50
 /*Inserire un nuovo libro (Codice ISBN, Titolo, Autore, Editore, Anno di Pubblicazione, Prezzo, Tag del Genere)
-Visualizzare lâ€™intero catalogo della biblioteca
+Visualizzare l’intero catalogo della biblioteca
 Cancellare un libro (attraverso il codice ISBN)
 Ricercare un particolare libro (attraverso il codice ISBN)
 Effettuare delle modifiche (si ricerca il libro attraverso ISBN e si possono modificare tutte le relative informazioni)*/
@@ -46,9 +46,67 @@ libro inserisciLibro()
     cin>>input.prezzo;
     cout<<"Inserire il tag del genere: ";
     cin>>input.tag_genere;
-    
+
     return input;
 }
+
+void visualizzaCatalogo(libro catalogo[], int n)
+{
+    for(int i = 0; i<n; i++)
+    {
+        cout<<catalogo[i].codice<<" - "<<catalogo[i].titolo<<" - "<<catalogo[i].autore<<" - "<<catalogo[i].tag_genere<<endl;
+
+    }
+}
+
+int ricercaCodice(libro libri[], int n, string codice)
+{
+    for(int i = 0; i<n; i++)
+    {
+        if(codice == libri[i].codice)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+int ricercaTitolo(libro libri[], int n, string titolo)
+{
+    for(int i = 0; i<n; i++)
+    {
+        if(titolo == libri[i].titolo)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+
+void cancellaLibro(libro libri[], int &n)
+{
+    string codice;
+    int indice;
+    visualizzaCatalogo(libri, n);
+    cout<<"Seleziona il libro da cancellare: ";
+    cin>>codice;
+    indice = ricercaCodice(libri, n, codice);
+    if(indice != -1)
+    {
+        for(int j = indice; j<n-1; j++)
+        {
+            libri[j] = libri[j+1];
+        }
+        n--;
+    }
+    else{
+        cout<<"Impossibile trovare il codice inserito"<<endl;
+    }
+}
+
+
+
 
 
 
@@ -65,13 +123,21 @@ int main()
         cin>>scelta;
         switch(scelta)
         {
-            case 1: 
-                libri[cont] = inserisciLibro();
-                cont++;
+            case 1:
+                if(cont < DIM)
+                {
+                    libri[cont] = inserisciLibro();
+                    cont++;
+                }
+                else{
+                    cout<<"Memoria terminata :("<<endl;
+                }
                 break;
             case 2:
+                visualizzaCatalogo(libri, cont);
                 break;
             case 3:
+                cancellaLibro(libri, cont);
                 break;
             case 4:
                 break;
