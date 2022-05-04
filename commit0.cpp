@@ -83,6 +83,21 @@ int ricercaTitolo(libro libri[], int n, string titolo)
     return -1;
 }
 
+void ricercaLibro(libro libri[], int n)
+{
+    string titolo;
+    int indice;
+    cout<<"Inserire titolo da ricercare: ";
+    cin>>titolo;
+    indice = ricercaTitolo(libri, n, titolo);
+    if(indice != -1)
+    {
+       cout<<libri[indice].codice<<" - "<<libri[indice].titolo<<" - "<<libri[indice].autore<<" - "<<libri[indice].tag_genere<<endl;
+    }
+    else{
+        cout<<"Impossibile trovare il libro inserito"<<endl;
+    }
+}
 
 void cancellaLibro(libro libri[], int &n)
 {
@@ -105,7 +120,39 @@ void cancellaLibro(libro libri[], int &n)
     }
 }
 
+void effettuaModifiche(libro libri[], int n)
+{
+    string codice;
+    int indice;
+    libro input;
+    visualizzaCatalogo(libri, n);
+    cout<<"Seleziona il libro da cancellare: ";
+    cin>>codice;
+    indice = ricercaCodice(libri, n, codice);
+    if(indice != -1)
+    {
+        cout<<"Inserire il codice: ";
+        cin>>input.codice;
+        cout<<"Inserire il titolo: ";
+        cin>>input.titolo;
+        cout<<"Inserire l' autore: ";
+        cin>>input.autore;
+        cout<<"Inserire l' editore: ";
+        cin>>input.editore;
+        cout<<"Inserire l' anno di pubblicazione: ";
+        cin>>input.anno_pub;
+        cout<<"Inserire il prezzo: ";
+        cin>>input.prezzo;
+        cout<<"Inserire il tag del genere: ";
+        cin>>input.tag_genere;
+        libri[indice] = input;
 
+
+    }
+    else{
+        cout<<"Impossibile trovare il codice inserito"<<endl;
+    }
+}
 
 
 
@@ -140,8 +187,10 @@ int main()
                 cancellaLibro(libri, cont);
                 break;
             case 4:
+                ricercaLibro(libri, cont);
                 break;
             case 5:
+                effettuaModifiche(libri, cont);
                 break;
 
         }
